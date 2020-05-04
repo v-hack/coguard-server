@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d1a21fcd0d224a609af32f30697ee12e" Name="Diagram1" ZoomLevel="52">
+        <EntityTypeShape EntityType="VirusHackServer20200503024208_dbModel.Allergy2User" Width="1.5" PointX="3" PointY="7.5" />
+        <EntityTypeShape EntityType="VirusHackServer20200503024208_dbModel.AuthData" Width="1.5" PointX="3" PointY="21.875" />
+        <EntityTypeShape EntityType="VirusHackServer20200503024208_dbModel.Doctor" Width="1.5" PointX="3" PointY="14.875" />
+        <EntityTypeShape EntityType="VirusHackServer20200503024208_dbModel.Measuring" Width="1.5" PointX="5.25" PointY="11" />
+        <EntityTypeShape EntityType="VirusHackServer20200503024208_dbModel.Object" Width="1.5" PointX="3" PointY="4.5" />
+        <EntityTypeShape EntityType="VirusHackServer20200503024208_dbModel.Patient" Width="1.5" PointX="3" PointY="10" />
+        <EntityTypeShape EntityType="VirusHackServer20200503024208_dbModel.Patient2Doctor" Width="1.5" PointX="8.25" PointY="12.875" />
+        <EntityTypeShape EntityType="VirusHackServer20200503024208_dbModel.Research" Width="1.5" PointX="3" PointY="24.375" />
+        <EntityTypeShape EntityType="VirusHackServer20200503024208_dbModel.Roles" Width="1.5" PointX="3.75" PointY="19.25" />
+        <EntityTypeShape EntityType="VirusHackServer20200503024208_dbModel.User2Role" Width="1.5" PointX="6" PointY="16.875" />
+        <EntityTypeShape EntityType="VirusHackServer20200503024208_dbModel.UserProfile" Width="1.5" PointX="0.75" PointY="12.25" />
+        <EntityTypeShape EntityType="VirusHackServer20200503024208_dbModel.Visit" Width="1.5" PointX="5.25" PointY="13.875" />
+        <EntityTypeShape EntityType="VirusHackServer20200503024208_dbModel.database_firewall_rules" Width="1.5" PointX="0.75" PointY="0.75" />
+        <AssociationConnector Association="VirusHackServer20200503024208_dbModel.FK_Allergy2User_UserProfile" />
+        <AssociationConnector Association="VirusHackServer20200503024208_dbModel.FK_AuthData_UserProfile" />
+        <AssociationConnector Association="VirusHackServer20200503024208_dbModel.FK_Doctor_UserProfile" />
+        <AssociationConnector Association="VirusHackServer20200503024208_dbModel.FK_Patient2Doctor_Doctor" />
+        <AssociationConnector Association="VirusHackServer20200503024208_dbModel.FK_Visit_Doctor" />
+        <AssociationConnector Association="VirusHackServer20200503024208_dbModel.FK_Measuring_Patient" />
+        <AssociationConnector Association="VirusHackServer20200503024208_dbModel.FK_Object_UserProfile" />
+        <AssociationConnector Association="VirusHackServer20200503024208_dbModel.FK_Patient_Patient" />
+        <AssociationConnector Association="VirusHackServer20200503024208_dbModel.FK_Patient_UserProfile" />
+        <AssociationConnector Association="VirusHackServer20200503024208_dbModel.FK_Patient2Doctor_Patient" />
+        <AssociationConnector Association="VirusHackServer20200503024208_dbModel.FK_Visit_UserProfile" />
+        <AssociationConnector Association="VirusHackServer20200503024208_dbModel.FK_Research_UserProfile" />
+        <AssociationConnector Association="VirusHackServer20200503024208_dbModel.FK_User2Role_Roles" />
+        <AssociationConnector Association="VirusHackServer20200503024208_dbModel.FK_User2Role_User2Role" />
+        <AssociationConnector Association="VirusHackServer20200503024208_dbModel.FK_User2Role_UserProfile" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
