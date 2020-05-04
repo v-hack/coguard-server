@@ -155,7 +155,10 @@
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\Doctor2PatientController.cs" />
     <Compile Include="Controllers\DoctorInfoController.cs" />
+    <Compile Include="Controllers\DrugController.cs" />
+    <Compile Include="Controllers\MeasuringController.cs" />
     <Compile Include="Controllers\PatientInfoController.cs" />
+    <Compile Include="Controllers\TokenUpdateController.cs" />
     <Compile Include="Controllers\VisitsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -163,6 +166,7 @@
     <Compile Include="Managers\ApiManager.cs" />
     <Compile Include="Managers\AuthManager.cs" />
     <Compile Include="Models\ApiDoctor2PatientPostModel.cs" />
+    <Compile Include="Models\ApiMeasuringModel.cs" />
     <Compile Include="Models\AuthModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -188,7 +192,10 @@
     <Folder Include="Views\Default\" />
     <Folder Include="Views\Doctor2Patient\" />
     <Folder Include="Views\DoctorInfo\" />
+    <Folder Include="Views\Drug\" />
     <Folder Include="Views\MainInfo\" />
+    <Folder Include="Views\Measuring\" />
+    <Folder Include="Views\TokenUpdate\" />
     <Folder Include="Views\Visits\" />
   </ItemGroup>
   <ItemGroup>

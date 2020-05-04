@@ -38,5 +38,8 @@ namespace VirusHackServerLib
         public virtual DbSet<UserProfile> UserProfile { get; set; }
         public virtual DbSet<Visit> Visit { get; set; }
         public virtual DbSet<database_firewall_rules> database_firewall_rules { get; set; }
+        public virtual DbSet<TimetablePush> TimetablePush { get; set; }
+        public virtual DbSet<Drug> Drug { get; set; }
+        public virtual DbSet<TokenPush> TokenPush { get; set; }
     }
 }

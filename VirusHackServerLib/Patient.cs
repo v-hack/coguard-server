@@ -20,6 +20,7 @@ namespace VirusHackServerLib
             this.Measuring = new HashSet<Measuring>();
             this.Patient2Doctor = new HashSet<Patient2Doctor>();
             this.Visit = new HashSet<Visit>();
+            this.Drug = new HashSet<Drug>();
         }
     
         public int PatientId { get; set; }
@@ -42,5 +43,7 @@ namespace VirusHackServerLib
         public virtual ICollection<Patient2Doctor> Patient2Doctor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Visit> Visit { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Drug> Drug { get; set; }
     }
 }

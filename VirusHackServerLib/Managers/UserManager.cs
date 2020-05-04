@@ -7,6 +7,14 @@ using VirusHackServerLib.Models;
 
 namespace VirusHackServerLib.Managers {
     public static class UserManager {
+        public static bool SetPressure() {
+            return false;
+        }
+
+        public static bool SetTemp() {
+            return false;
+        }
+
         public static PatientModel MainPatientInfo(int userId) {
             try {
                 using (var db = new VirusHackServerEntities()) {
