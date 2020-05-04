@@ -19,15 +19,13 @@ namespace VirusHackServerLib.Models {
             
             this.StartReception = drug.StartReception;
             this.FinishReception = drug.FinishReception;
+            this.period = drug.Period ?? 0;
 
-            var times = drug.TimetablePush?.ToList();
-            if (times != null) {
-                times.ForEach(time => {
-                    this.Times.Add(time.Time.Value.TotalHours + "."
-                        + time.Time.Value.TotalMinutes);
-                });
-            }
-
+            drug.TimetablePush?.ToList()?.ForEach(a => {
+                this
+                .times
+                .Add(a.Time.HasValue ? (a.Time.Value.Hours + "." + a.Time.Value.Minutes) : "");
+            });
         }
         public int DrugId { get; set; }
         public int PatientId { get; set; }
@@ -37,6 +35,8 @@ namespace VirusHackServerLib.Models {
         public string FeaturesReception { get; set; }
         public DateTime? StartReception { get; set; }
         public DateTime? FinishReception { get; set; }
-        public List<string> Times { get; set; } = new List<string>();
+        public bool Allowed { get; set; } = true;
+        public int period { get; set; } = 0;
+        public List<string> times { get; set; } = new List<string>();
     }
 }

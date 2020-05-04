@@ -12,9 +12,10 @@ namespace VirusHackServer
         {
             config.MapHttpAttributeRoutes();
 
-
-            var corsAttr = new EnableCorsAttribute("http://localhost:3000", "*", "*");
-            config.EnableCors(corsAttr);
+            
+            var corsAttrDoctor = new EnableCorsAttribute("*", "*", "*");
+            
+            config.EnableCors(corsAttrDoctor);
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

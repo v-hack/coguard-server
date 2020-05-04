@@ -15,8 +15,8 @@ namespace VirusHackServer.Controllers {
         public string name { get; set; }
         public string frequency_admission { get; set; }
         public string features_reception { get; set; }
-        public DateTime? start_reception { get; set; }
-        public DateTime? finish_reception { get; set; }
+        public int period { get; set; }
+        public List<string> time { get; set; }
     }
 
     public class DrugController : ApiController {

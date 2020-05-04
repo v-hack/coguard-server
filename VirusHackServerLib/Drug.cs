@@ -28,6 +28,8 @@ namespace VirusHackServerLib
         public string FeaturesReception { get; set; }
         public Nullable<System.DateTime> StartReception { get; set; }
         public Nullable<System.DateTime> FinishReception { get; set; }
+        public Nullable<bool> Allowed { get; set; }
+        public Nullable<int> Period { get; set; }
     
         public virtual Patient Patient { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

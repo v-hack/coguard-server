@@ -46,8 +46,8 @@ namespace VirusHackServer.Managers {
                 model.frequency_admission,
                 model.features_reception,
                 model.name,
-                model.start_reception,
-                model.finish_reception);
+                model.period,
+                model.time);
         }
 
         public static bool SendPush() {
@@ -62,8 +62,8 @@ namespace VirusHackServer.Managers {
                         to = token.Token,
                         collapse_key = "type_a",
                         notification = new {
-                            body = "Будьте здоровы!",
-                            title = "Доктор в кармане"
+                            body = @"Doctor Filimonova ""Vitrum"" advised you.",
+                            title = "Doctor in pocket"
                         }
                     });
 
@@ -75,6 +75,7 @@ namespace VirusHackServer.Managers {
 
                     request.ContentType = "application/json";
                     request.Headers.Add("Authorization", "key=AAAAhVEl7LI:APA91bGq1JbO1-IYWf-YDzI9plrJeRB7a6xwDw0ausbSdhZBASIdIggP-UK3kn8bKLtp5E836l_GvKd_32ngyzhWCBwc3C-XmzlpeG6lkT4l9MDHrqgsHtPFrzQEhzZpXXIVGOPn3Qce");
+                    request.Headers.Add("accept-charset", "utf-8");
 
                     request.Accept = "application/json";
 

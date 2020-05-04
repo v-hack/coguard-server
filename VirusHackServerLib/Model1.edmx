@@ -21,6 +21,14 @@
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="DangerousDrugCombination">
+          <Key>
+            <PropertyRef Name="CombinationId" />
+          </Key>
+          <Property Name="CombinationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstDrugName" Type="nvarchar" MaxLength="250" />
+          <Property Name="SecondDrugName" Type="nvarchar" MaxLength="250" />
+        </EntityType>
         <EntityType Name="Doctor">
           <Key>
             <PropertyRef Name="DoctorId" />
@@ -46,6 +54,8 @@
           <Property Name="FeaturesReception" Type="nvarchar" MaxLength="150" />
           <Property Name="StartReception" Type="datetime2" Precision="7" />
           <Property Name="FinishReception" Type="datetime2" Precision="7" />
+          <Property Name="Allowed" Type="bit" />
+          <Property Name="Period" Type="int" />
         </EntityType>
         <EntityType Name="Measuring">
           <Key>
@@ -112,7 +122,7 @@
           <Key>
             <PropertyRef Name="TimetableId" />
           </Key>
-          <Property Name="TimetableId" Type="int" Nullable="false" />
+          <Property Name="TimetableId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Time" Type="time" Precision="7" />
           <Property Name="DrugId" Type="int" />
         </EntityType>
@@ -378,6 +388,7 @@ warning 6002: The table/view 'VirusHackServer20200503024208_db.sys.database_fire
         <EntityContainer Name="VirusHackServer20200503024208_dbModelStoreContainer">
           <EntitySet Name="Allergy2User" EntityType="Self.Allergy2User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AuthData" EntityType="Self.AuthData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DangerousDrugCombination" EntityType="Self.DangerousDrugCombination" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Doctor" EntityType="Self.Doctor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Drug" EntityType="Self.Drug" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Measuring" EntityType="Self.Measuring" Schema="dbo" store:Type="Tables" />
@@ -477,13 +488,17 @@ warning 6002: The table/view 'VirusHackServer20200503024208_db.sys.database_fire
         <EntityContainer Name="VirusHackServerEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Allergy2User" EntityType="VirusHackServer20200503024208_dbModel.Allergy2User" />
           <EntitySet Name="AuthData" EntityType="VirusHackServer20200503024208_dbModel.AuthData" />
+          <EntitySet Name="DangerousDrugCombination" EntityType="VirusHackServer20200503024208_dbModel.DangerousDrugCombination" />
           <EntitySet Name="Doctor" EntityType="VirusHackServer20200503024208_dbModel.Doctor" />
+          <EntitySet Name="Drug" EntityType="VirusHackServer20200503024208_dbModel.Drug" />
           <EntitySet Name="Measuring" EntityType="VirusHackServer20200503024208_dbModel.Measuring" />
           <EntitySet Name="Object" EntityType="VirusHackServer20200503024208_dbModel.Object" />
           <EntitySet Name="Patient" EntityType="VirusHackServer20200503024208_dbModel.Patient" />
           <EntitySet Name="Patient2Doctor" EntityType="VirusHackServer20200503024208_dbModel.Patient2Doctor" />
           <EntitySet Name="Research" EntityType="VirusHackServer20200503024208_dbModel.Research" />
           <EntitySet Name="Roles" EntityType="VirusHackServer20200503024208_dbModel.Roles" />
+          <EntitySet Name="TimetablePush" EntityType="VirusHackServer20200503024208_dbModel.TimetablePush" />
+          <EntitySet Name="TokenPush" EntityType="VirusHackServer20200503024208_dbModel.TokenPush" />
           <EntitySet Name="User2Role" EntityType="VirusHackServer20200503024208_dbModel.User2Role" />
           <EntitySet Name="UserProfile" EntityType="VirusHackServer20200503024208_dbModel.UserProfile" />
           <EntitySet Name="Visit" EntityType="VirusHackServer20200503024208_dbModel.Visit" />
@@ -507,6 +522,14 @@ warning 6002: The table/view 'VirusHackServer20200503024208_db.sys.database_fire
           <AssociationSet Name="FK_Visit_Doctor" Association="VirusHackServer20200503024208_dbModel.FK_Visit_Doctor">
             <End Role="Doctor" EntitySet="Doctor" />
             <End Role="Visit" EntitySet="Visit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Drug_Patient" Association="VirusHackServer20200503024208_dbModel.FK_Drug_Patient">
+            <End Role="Patient" EntitySet="Patient" />
+            <End Role="Drug" EntitySet="Drug" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimetablePush_Drug" Association="VirusHackServer20200503024208_dbModel.FK_TimetablePush_Drug">
+            <End Role="Drug" EntitySet="Drug" />
+            <End Role="TimetablePush" EntitySet="TimetablePush" />
           </AssociationSet>
           <AssociationSet Name="FK_Measuring_Patient" Association="VirusHackServer20200503024208_dbModel.FK_Measuring_Patient">
             <End Role="Patient" EntitySet="Patient" />
@@ -548,17 +571,6 @@ warning 6002: The table/view 'VirusHackServer20200503024208_db.sys.database_fire
             <End Role="UserProfile" EntitySet="UserProfile" />
             <End Role="User2Role" EntitySet="User2Role" />
           </AssociationSet>
-          <EntitySet Name="TimetablePush" EntityType="VirusHackServer20200503024208_dbModel.TimetablePush" />
-          <EntitySet Name="Drug" EntityType="VirusHackServer20200503024208_dbModel.Drug" />
-          <AssociationSet Name="FK_Drug_Patient" Association="VirusHackServer20200503024208_dbModel.FK_Drug_Patient">
-            <End Role="Patient" EntitySet="Patient" />
-            <End Role="Drug" EntitySet="Drug" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TimetablePush_Drug" Association="VirusHackServer20200503024208_dbModel.FK_TimetablePush_Drug">
-            <End Role="Drug" EntitySet="Drug" />
-            <End Role="TimetablePush" EntitySet="TimetablePush" />
-          </AssociationSet>
-          <EntitySet Name="TokenPush" EntityType="VirusHackServer20200503024208_dbModel.TokenPush" />
         </EntityContainer>
         <EntityType Name="Allergy2User">
           <Key>
@@ -578,6 +590,14 @@ warning 6002: The table/view 'VirusHackServer20200503024208_db.sys.database_fire
           <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="UserProfile" Relationship="VirusHackServer20200503024208_dbModel.FK_AuthData_UserProfile" FromRole="AuthData" ToRole="UserProfile" />
         </EntityType>
+        <EntityType Name="DangerousDrugCombination">
+          <Key>
+            <PropertyRef Name="CombinationId" />
+          </Key>
+          <Property Name="CombinationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstDrugName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="SecondDrugName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="Doctor">
           <Key>
             <PropertyRef Name="DoctorId" />
@@ -593,6 +613,23 @@ warning 6002: The table/view 'VirusHackServer20200503024208_db.sys.database_fire
           <NavigationProperty Name="UserProfile" Relationship="VirusHackServer20200503024208_dbModel.FK_Doctor_UserProfile" FromRole="Doctor" ToRole="UserProfile" />
           <NavigationProperty Name="Patient2Doctor" Relationship="VirusHackServer20200503024208_dbModel.FK_Patient2Doctor_Doctor" FromRole="Doctor" ToRole="Patient2Doctor" />
           <NavigationProperty Name="Visit" Relationship="VirusHackServer20200503024208_dbModel.FK_Visit_Doctor" FromRole="Doctor" ToRole="Visit" />
+        </EntityType>
+        <EntityType Name="Drug">
+          <Key>
+            <PropertyRef Name="DrugId" />
+          </Key>
+          <Property Name="DrugId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PatientId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="DrugType" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="FrequencyAdmission" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="FeaturesReception" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="StartReception" Type="DateTime" Precision="7" />
+          <Property Name="FinishReception" Type="DateTime" Precision="7" />
+          <Property Name="Allowed" Type="Boolean" />
+          <Property Name="Period" Type="Int32" />
+          <NavigationProperty Name="Patient" Relationship="VirusHackServer20200503024208_dbModel.FK_Drug_Patient" FromRole="Drug" ToRole="Patient" />
+          <NavigationProperty Name="TimetablePush" Relationship="VirusHackServer20200503024208_dbModel.FK_TimetablePush_Drug" FromRole="Drug" ToRole="TimetablePush" />
         </EntityType>
         <EntityType Name="Measuring">
           <Key>
@@ -630,13 +667,13 @@ warning 6002: The table/view 'VirusHackServer20200503024208_db.sys.database_fire
           <Property Name="LaboratoryData" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Features" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="PatientIndex" Type="Int32" />
+          <NavigationProperty Name="Drug" Relationship="VirusHackServer20200503024208_dbModel.FK_Drug_Patient" FromRole="Patient" ToRole="Drug" />
           <NavigationProperty Name="Measuring" Relationship="VirusHackServer20200503024208_dbModel.FK_Measuring_Patient" FromRole="Patient" ToRole="Measuring" />
           <NavigationProperty Name="Patient1" Relationship="VirusHackServer20200503024208_dbModel.FK_Patient_Patient" FromRole="Patient" ToRole="Patient1" />
           <NavigationProperty Name="Patient2" Relationship="VirusHackServer20200503024208_dbModel.FK_Patient_Patient" FromRole="Patient1" ToRole="Patient" />
           <NavigationProperty Name="UserProfile" Relationship="VirusHackServer20200503024208_dbModel.FK_Patient_UserProfile" FromRole="Patient" ToRole="UserProfile" />
           <NavigationProperty Name="Patient2Doctor" Relationship="VirusHackServer20200503024208_dbModel.FK_Patient2Doctor_Patient" FromRole="Patient" ToRole="Patient2Doctor" />
           <NavigationProperty Name="Visit" Relationship="VirusHackServer20200503024208_dbModel.FK_Visit_UserProfile" FromRole="Patient" ToRole="Visit" />
-          <NavigationProperty Name="Drug" Relationship="VirusHackServer20200503024208_dbModel.FK_Drug_Patient" FromRole="Patient" ToRole="Drug" />
         </EntityType>
         <EntityType Name="Patient2Doctor">
           <Key>
@@ -667,6 +704,24 @@ warning 6002: The table/view 'VirusHackServer20200503024208_db.sys.database_fire
           <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RoleName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="User2Role" Relationship="VirusHackServer20200503024208_dbModel.FK_User2Role_Roles" FromRole="Roles" ToRole="User2Role" />
+        </EntityType>
+        <EntityType Name="TimetablePush">
+          <Key>
+            <PropertyRef Name="TimetableId" />
+          </Key>
+          <Property Name="TimetableId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Time" Type="Time" Precision="7" />
+          <Property Name="DrugId" Type="Int32" />
+          <NavigationProperty Name="Drug" Relationship="VirusHackServer20200503024208_dbModel.FK_TimetablePush_Drug" FromRole="TimetablePush" ToRole="Drug" />
+        </EntityType>
+        <EntityType Name="TokenPush">
+          <Key>
+            <PropertyRef Name="TokenId" />
+          </Key>
+          <Property Name="TokenId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Token" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Precision="7" />
         </EntityType>
         <EntityType Name="User2Role">
           <Key>
@@ -782,6 +837,30 @@ warning 6002: The table/view 'VirusHackServer20200503024208_db.sys.database_fire
             </Principal>
             <Dependent Role="Visit">
               <PropertyRef Name="DoctorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Drug_Patient">
+          <End Type="VirusHackServer20200503024208_dbModel.Patient" Role="Patient" Multiplicity="1" />
+          <End Type="VirusHackServer20200503024208_dbModel.Drug" Role="Drug" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="PatientId" />
+            </Principal>
+            <Dependent Role="Drug">
+              <PropertyRef Name="PatientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimetablePush_Drug">
+          <End Type="VirusHackServer20200503024208_dbModel.Drug" Role="Drug" Multiplicity="0..1" />
+          <End Type="VirusHackServer20200503024208_dbModel.TimetablePush" Role="TimetablePush" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Drug">
+              <PropertyRef Name="DrugId" />
+            </Principal>
+            <Dependent Role="TimetablePush">
+              <PropertyRef Name="DrugId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -905,63 +984,6 @@ warning 6002: The table/view 'VirusHackServer20200503024208_db.sys.database_fire
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="TimetablePush">
-          <Key>
-            <PropertyRef Name="TimetableId" />
-          </Key>
-          <Property Name="TimetableId" Type="Int32" Nullable="false" />
-          <Property Name="Time" Type="Time" Precision="7" />
-          <Property Name="DrugId" Type="Int32" />
-          <NavigationProperty Name="Drug" Relationship="VirusHackServer20200503024208_dbModel.FK_TimetablePush_Drug" FromRole="TimetablePush" ToRole="Drug" />
-        </EntityType>
-        <EntityType Name="Drug">
-          <Key>
-            <PropertyRef Name="DrugId" />
-          </Key>
-          <Property Name="DrugId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PatientId" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="DrugType" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="FrequencyAdmission" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="FeaturesReception" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="StartReception" Type="DateTime" Precision="7" />
-          <Property Name="FinishReception" Type="DateTime" Precision="7" />
-          <NavigationProperty Name="Patient" Relationship="VirusHackServer20200503024208_dbModel.FK_Drug_Patient" FromRole="Drug" ToRole="Patient" />
-          <NavigationProperty Name="TimetablePush" Relationship="VirusHackServer20200503024208_dbModel.FK_TimetablePush_Drug" FromRole="Drug" ToRole="TimetablePush" />
-        </EntityType>
-        <Association Name="FK_Drug_Patient">
-          <End Type="VirusHackServer20200503024208_dbModel.Patient" Role="Patient" Multiplicity="1" />
-          <End Type="VirusHackServer20200503024208_dbModel.Drug" Role="Drug" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Patient">
-              <PropertyRef Name="PatientId" />
-            </Principal>
-            <Dependent Role="Drug">
-              <PropertyRef Name="PatientId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TimetablePush_Drug">
-          <End Type="VirusHackServer20200503024208_dbModel.Drug" Role="Drug" Multiplicity="0..1" />
-          <End Type="VirusHackServer20200503024208_dbModel.TimetablePush" Role="TimetablePush" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Drug">
-              <PropertyRef Name="DrugId" />
-            </Principal>
-            <Dependent Role="TimetablePush">
-              <PropertyRef Name="DrugId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="TokenPush">
-          <Key>
-            <PropertyRef Name="TokenId" />
-          </Key>
-          <Property Name="TokenId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Token" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="Date" Type="DateTime" Precision="7" />
-        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -986,6 +1008,15 @@ warning 6002: The table/view 'VirusHackServer20200503024208_db.sys.database_fire
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="DangerousDrugCombination">
+            <EntityTypeMapping TypeName="VirusHackServer20200503024208_dbModel.DangerousDrugCombination">
+              <MappingFragment StoreEntitySet="DangerousDrugCombination">
+                <ScalarProperty Name="SecondDrugName" ColumnName="SecondDrugName" />
+                <ScalarProperty Name="FirstDrugName" ColumnName="FirstDrugName" />
+                <ScalarProperty Name="CombinationId" ColumnName="CombinationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Doctor">
             <EntityTypeMapping TypeName="VirusHackServer20200503024208_dbModel.Doctor">
               <MappingFragment StoreEntitySet="Doctor">
@@ -997,6 +1028,22 @@ warning 6002: The table/view 'VirusHackServer20200503024208_db.sys.database_fire
                 <ScalarProperty Name="Specialization" ColumnName="Specialization" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="DoctorId" ColumnName="DoctorId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Drug">
+            <EntityTypeMapping TypeName="VirusHackServer20200503024208_dbModel.Drug">
+              <MappingFragment StoreEntitySet="Drug">
+                <ScalarProperty Name="Period" ColumnName="Period" />
+                <ScalarProperty Name="Allowed" ColumnName="Allowed" />
+                <ScalarProperty Name="FinishReception" ColumnName="FinishReception" />
+                <ScalarProperty Name="StartReception" ColumnName="StartReception" />
+                <ScalarProperty Name="FeaturesReception" ColumnName="FeaturesReception" />
+                <ScalarProperty Name="FrequencyAdmission" ColumnName="FrequencyAdmission" />
+                <ScalarProperty Name="DrugType" ColumnName="DrugType" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PatientId" ColumnName="PatientId" />
+                <ScalarProperty Name="DrugId" ColumnName="DrugId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1067,6 +1114,25 @@ warning 6002: The table/view 'VirusHackServer20200503024208_db.sys.database_fire
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="TimetablePush">
+            <EntityTypeMapping TypeName="VirusHackServer20200503024208_dbModel.TimetablePush">
+              <MappingFragment StoreEntitySet="TimetablePush">
+                <ScalarProperty Name="DrugId" ColumnName="DrugId" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="TimetableId" ColumnName="TimetableId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TokenPush">
+            <EntityTypeMapping TypeName="VirusHackServer20200503024208_dbModel.TokenPush">
+              <MappingFragment StoreEntitySet="TokenPush">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Token" ColumnName="Token" />
+                <ScalarProperty Name="TokenId" ColumnName="TokenId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="User2Role">
             <EntityTypeMapping TypeName="VirusHackServer20200503024208_dbModel.User2Role">
               <MappingFragment StoreEntitySet="User2Role">
@@ -1107,39 +1173,6 @@ warning 6002: The table/view 'VirusHackServer20200503024208_db.sys.database_fire
                 <ScalarProperty Name="start_ip_address" ColumnName="start_ip_address" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TimetablePush">
-            <EntityTypeMapping TypeName="VirusHackServer20200503024208_dbModel.TimetablePush">
-              <MappingFragment StoreEntitySet="TimetablePush">
-                <ScalarProperty Name="DrugId" ColumnName="DrugId" />
-                <ScalarProperty Name="Time" ColumnName="Time" />
-                <ScalarProperty Name="TimetableId" ColumnName="TimetableId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Drug">
-            <EntityTypeMapping TypeName="VirusHackServer20200503024208_dbModel.Drug">
-              <MappingFragment StoreEntitySet="Drug">
-                <ScalarProperty Name="FinishReception" ColumnName="FinishReception" />
-                <ScalarProperty Name="StartReception" ColumnName="StartReception" />
-                <ScalarProperty Name="FeaturesReception" ColumnName="FeaturesReception" />
-                <ScalarProperty Name="FrequencyAdmission" ColumnName="FrequencyAdmission" />
-                <ScalarProperty Name="DrugType" ColumnName="DrugType" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="PatientId" ColumnName="PatientId" />
-                <ScalarProperty Name="DrugId" ColumnName="DrugId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TokenPush">
-            <EntityTypeMapping TypeName="VirusHackServer20200503024208_dbModel.TokenPush">
-              <MappingFragment StoreEntitySet="TokenPush">
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="Token" ColumnName="Token" />
-                <ScalarProperty Name="TokenId" ColumnName="TokenId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
